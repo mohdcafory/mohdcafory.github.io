@@ -1,0 +1,11 @@
+.modal {
+    background: rgba(0, 0, 0, .5);
+}
+
+.modal-dialog {
+    max-width  : 100%;
+}
+.spinner {
+    animation: fa-spin 0.8s infinite linear;
+    z-index: 999;
+}

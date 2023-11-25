@@ -1,0 +1,73 @@
+<div class="login-box">
+  <div class="login-logo">
+    <img
+      src="assets/img/logo.jpeg"
+      alt="ENGSOL Logo"
+      class="brand-image img-circle elevation-3"
+      style="opacity: 0.8; width: 20%; margin: 15px"
+    />
+    <a [routerLink]="['/']"><b>ENGSOL </b> &nbsp; Journeys Records</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in to start your session</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="input-group mb-3">
+          <input
+            formControlName="userName"
+            type="text"
+            class="form-control"
+            placeholder="User Name"
+          />
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input
+            formControlName="password"
+            type="password"
+            class="form-control"
+            placeholder="Password"
+          />
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-7">
+            <!-- <div class="icheck-primary">
+              <input formControlName="rememberMe"  type="checkbox" id="remember" />
+              <label for="remember">
+                Remember Me
+              </label>
+            </div> -->
+          </div>
+          <!-- /.col -->
+          <div class="col-5">
+            <app-button
+              [disabled]="isAuthLoading"
+              [type]="'submit'"
+              class="btn btn-block"
+              [text]="'Sign In'"
+              [loading]="isAuthLoading"
+              [color]="'info'"
+            ></app-button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <!-- <p class="mb-1">
+        <a [routerLink]="['/forgot-password']">I forgot my password</a>
+      </p> -->
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>

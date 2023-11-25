@@ -1,0 +1,408 @@
+<div class="card">
+
+    <div class="card-header">
+        <div class="row mt-4 mb-4">
+            <div class="col-md-6 text-left">
+                <img src="assets/img/logo.png" style="width: 25%;">
+            </div>
+
+            <div class="col-md-6 text-right">
+                <p class="font-weight-bold mb-1">#{{EntryInspectionInfo.Id}}</p>
+                <p class="text-muted">
+                    <b>Creation Date :</b> {{EntryInspectionInfo.cr_dt | date:'dd/MM/yyyy hh:mm'}}
+                </p>
+                <p style="font-size: 25px;">
+
+                    <span *ngIf="EntryInspectionInfo.submitted == 'N'" class="badge badge-warning float-right mt-2">On
+                        Progress</span>
+                    <span *ngIf="EntryInspectionInfo.submitted == 'Y'"
+                        class="badge badge-success float-right mt-2">Submitted</span>
+                </p>
+            </div>
+        </div>
+        <div class="row justify-content-center align-self-center mt-4 mb-4">
+            <h3>
+                <b> Entry Inspection</b>
+            </h3>
+        </div>
+        <div class="row mt-4 mb-4">
+            <div class="col-6">
+                <strong>Job No : </strong><span>{{EntryInspectionInfo.JobNo}}</span>
+            </div>
+
+            <div class="col-6 text-right">
+                <strong>CTC Engineer : </strong><span>{{EntryInspectionInfo.EmpCode}}</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+
+        <tabset #staticTabs class="tabset-justify-content-center">
+
+            <tab heading="Service Report" class="tab-contents">
+                <div class="row mt-4">
+                    <h6>
+                        <strong>Customer Information</strong>
+                    </h6>
+                </div>
+                <hr class="solid" />
+                <div class="row mb-3">
+
+                    <div class="col-3">
+                        <div class="row mb-3 mt-2">
+                            <strong>Customer Name: </strong>{{EntryInspectionInfo.CustName}}
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <strong>Driver Name: </strong>{{EntryInspectionInfo.DriverName}}
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <strong>Tel (Res): </strong>{{EntryInspectionInfo.Phone}}
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <strong>Service Adv: </strong>{{EntryInspectionInfo.ServiceAdv}}
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <strong>Tel: </strong>{{EntryInspectionInfo.EngPhone}}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row mb-3 mt-2">
+                            <strong>Plate No :</strong> {{EntryInspectionInfo.PlateNo}}
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <strong>Model :</strong> {{EntryInspectionInfo.Model}}
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <strong>Fule Level :</strong> {{EntryInspectionInfo.FuelSelection}}
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <strong>Engine No :</strong> {{EntryInspectionInfo.EngineNo}}
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <strong>KM Reading :</strong> {{EntryInspectionInfo.KmReading}}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row mb-3 mt-2">
+                            <strong>Fuel :</strong> {{EntryInspectionInfo.FuelSelection}}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="row mb-3 mt-2">
+                            <div class="col-6 mt-4 mb-4">
+                                <strong>Job Type :</strong>
+                            </div>
+                            <div class="col-6 mt-4 mb-4">
+                                <div class="col-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="MJobType" value="M" disabled
+                                            [checked]="MJobType">
+                                        <label class="form-check-label" for="MJobType">M</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="CashPayMode" value="B"
+                                            disabled [checked]="CashPayMode">
+                                        <label class="form-check-label" for="CashPayMode">B</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3 mt-2">
+                            <strong>Pay Mode :</strong>
+                            <div class="col-12">
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="CashPayMode" value="M" disabled
+                                        [checked]="CashPayMode">
+                                    <label class="form-check-label" for="CashPayMode">Cash</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="CreditPayMode"
+                                        value="CreditPayMode" disabled [checked]="CreditPayMode">
+                                    <label class="form-check-label" for="CreditPayMode">Credit</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="WarrantyPayMode" value="M"
+                                        disabled [checked]="WarrantyPayMode">
+                                    <label class="form-check-label" for="WarrantyPayMode">Warranty</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="HRPayMode" value="HRPayMode"
+                                        disabled [checked]="HRPayMode">
+                                    <label class="form-check-label" for="HRPayMode">HR</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="InsurancePayMode"
+                                        value="InsurancePayMode" disabled [checked]="InsurancePayMode">
+                                    <label class="form-check-label" for="InsurancePayMode">Insurance</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="BuPayMode" value="BuPayMode"
+                                        disabled [checked]="BuPayMode">
+                                    <label class="form-check-label" for="BuPayMode">Bu</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 mt-2">
+                            <strong>Repair Card No :</strong> {{EntryInspectionInfo.RepairCard}}
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <hr />
+                <div class="row mb-3">
+
+                    <div class="col-4 mt-4 mb-4">
+                        <div class="row">
+                            <strong>Time in: </strong> &nbsp;
+                            {{EntryInspectionInfo.TimeIn}}
+                        </div>
+                        <div class="row mb-2">
+                            <strong>Deliver Date: </strong> &nbsp;
+                            {{EntryInspectionInfo.DeliverDate}}
+                        </div>
+                        <div class="row mb-2">
+                            <strong>Deliver Time in: </strong> &nbsp;
+                            {{EntryInspectionInfo.DeliverTime}}
+                        </div>
+                        <div class="row mb-2">
+                            <strong>Alternative Phone: </strong> &nbsp;
+                            {{EntryInspectionInfo.AltPhone}}
+                        </div>
+                    </div>
+                    <div class="col-8 mt-4 mb-4">
+                        <div class="row mb-2 mt-2">
+
+                            <strong>Fault Symbols (Panel & Paint) :</strong>
+                            <div class="col-6">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="CashPayMode" value="M" disabled
+                                        [checked]="DentFaultSymbol">
+                                    <label class="form-check-label" for="DentFaultSymbol">D - Dent</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="CreditPayMode"
+                                        value="CreditPayMode" disabled [checked]="ScratchFaultSymbol">
+                                    <label class="form-check-label" for="ScratchFaultSymbol">S- Scratch</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="HRPayMode" value="HRPayMode"
+                                        disabled [checked]="ChipeFaultSymbol">
+                                    <label class="form-check-label" for="ChipeFaultSymbol">C - Chipe</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="InsurancePayMode"
+                                        value="InsurancePayMode" disabled [checked]="RustFaultSymbol">
+                                    <label class="form-check-label" for="InsurancePayMode">R - Rust</label>
+                                </div>
+                            </div>
+                            <!-- <div class="col-6 mt-4 mb-4">
+
+                                
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row mb-3">
+
+                    <div class="col-12">
+                        <div class="row mb-3 mt-2">
+                            <strong>General Checkup :</strong>
+                            <div class="row mt-4 mb-4">
+                                <div class="col-3">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="InternalLight" value="M"
+                                            disabled [checked]="InternalLight">
+                                        <label class="form-check-label" for="InternalLight">Internal Light</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Radio" value="Radio"
+                                            disabled [checked]="Radio">
+                                        <label class="form-check-label" for="Radio">Radio</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Liner" value="Liner"
+                                            disabled [checked]="Liner">
+                                        <label class="form-check-label" for="Liner">Liner</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Clock" value="Clock"
+                                            disabled [checked]="Clock">
+                                        <label class="form-check-label" for="Clock">Clock</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="AshTray" value="AshTray"
+                                            disabled [checked]="AshTray">
+                                        <label class="form-check-label" for="AshTray">Ash Tray</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="SideMirror"
+                                            value="SideMirror" disabled [checked]="SideMirror">
+                                        <label class="form-check-label" for="SideMirror">SideMirror</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Lighter" value="Lighter"
+                                            disabled [checked]="Lighter">
+                                        <label class="form-check-label" for="Lighter">Lighter</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Horn" value="Horn" disabled
+                                            [checked]="Horn">
+                                        <label class="form-check-label" for="Horn">Horn</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="HazardLight"
+                                            value="HazardLight" disabled [checked]="HazardLight">
+                                        <label class="form-check-label" for="HazardLight">HazardLight</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Jack" value="Jack" disabled
+                                            [checked]="Jack">
+                                        <label class="form-check-label" for="Jack">Jack</label>
+                                    </div>
+
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="ToolJack" value="ToolJack"
+                                            disabled [checked]="ToolJack">
+                                        <label class="form-check-label" for="ToolJack">ToolJack</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="SpareTyre" value="SpareTyre"
+                                            disabled [checked]="SpareTyre">
+                                        <label class="form-check-label" for="SpareTyre">SpareTyre</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="SaftyBuilt"
+                                            value="SaftyBuilt" disabled [checked]="SaftyBuilt">
+                                        <label class="form-check-label" for="SaftyBuilt">SaftyBuilt</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="FrontAndRearLights"
+                                            value="FrontAndRearLights" disabled [checked]="FrontAndRearLights">
+                                        <label class="form-check-label"
+                                            for="FrontAndRearLights">FrontAndRearLights</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="Wipper" value="Wipper"
+                                            disabled [checked]="Wipper">
+                                        <label class="form-check-label" for="Wipper">Wipper</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="FuseBoxCover"
+                                            value="FuseBoxCover" disabled [checked]="FuseBoxCover">
+                                        <label class="form-check-label" for="FuseBoxCover">FuseBoxCover</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="DoorOuterHand"
+                                            value="DoorOuterHand" disabled [checked]="DoorOuterHand">
+                                        <label class="form-check-label" for="DoorOuterHand">DoorOuterHand</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="DoorInnerHand"
+                                            value="DoorInnerHand" disabled [checked]="DoorInnerHand">
+                                        <label class="form-check-label" for="DoorInnerHand">DoorInnerHand</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="WheelCap" value="WheelCap"
+                                            disabled [checked]="WheelCap">
+                                        <label class="form-check-label" for="WheelCap">WheelCap</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="FuelCap" value="FuelCap"
+                                            disabled [checked]="FuelCap">
+                                        <label class="form-check-label" for="FuelCap">FuelCap</label>
+                                    </div>
+
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="RadCap" value="RadCap"
+                                            disabled [checked]="RadCap">
+                                        <label class="form-check-label" for="RadCap">Radatior Cap</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="BrakeOilCap"
+                                            value="BrakeOilCap" disabled [checked]="BrakeOilCap">
+                                        <label class="form-check-label" for="BrakeOilCap">BrakeOilCap</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="ClutchOilCap"
+                                            value="ClutchOilCap" disabled [checked]="ClutchOilCap">
+                                        <label class="form-check-label" for="ClutchOilCap">ClutchOilCap</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="OilCap" value="OilCap"
+                                            disabled [checked]="OilCap">
+                                        <label class="form-check-label" for="OilCap">OilCap</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="DarksonOilCap"
+                                            value="DarksonOilCap" disabled [checked]="DarksonOilCap">
+                                        <label class="form-check-label" for="DarksonOilCap">DarksonOilCap</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="FloorPedals"
+                                            value="FloorPedals" disabled [checked]="FloorPedals">
+                                        <label class="form-check-label" for="FloorPedals">FloorPedals</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="HandBrakeCover"
+                                            value="HandBrakeCover" disabled [checked]="HandBrakeCover">
+                                        <label class="form-check-label" for="HandBrakeCover">HandBrakeCover</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="EngineCover"
+                                            value="EngineCover" disabled [checked]="EngineCover">
+                                        <label class="form-check-label" for="EngineCover">EngineCover</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="row mb-3 mt-2">
+                            <strong>Customer Request: </strong> &nbsp;&nbsp;&nbsp; {{EntryInspectionInfo.CustRequest}}
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="row mb-3 mt-2">
+                            <strong>General Remarks: </strong>&nbsp;&nbsp;&nbsp;{{EntryInspectionInfo.GenRemarks}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="row mb-4">
+                            <strong class="mb-4">Customer Signature : </strong>
+                        </div>
+                        <div class="row  justify-content-center align-self-center mt-4 mb-4">
+                            <img class="img-thumbnail" width="450" height="450"
+                                [src]="EntryInspectionInfo.CustomerSignature">
+                        </div>
+                    </div>
+                </div>
+
+            </tab>
+            <tab heading="Entry Inspection Images" class="tab-contents">
+                <div class="row mt-4">
+                    <div class="col-4" *ngFor="let image of EntryInspectionInfo.InspectionImages; let i = index">
+                        <img [src]="image.Image" class="img-thumbnail" width="300" height="300" />
+                    </div>
+                </div>
+            </tab>
+
+        </tabset>
+    </div>
+</div>

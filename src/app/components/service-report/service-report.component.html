@@ -1,0 +1,429 @@
+<button id="openShowProductFeaturesButton" [hidden]="true" data-toggle="modal" data-backdrop="static"
+    data-keyboard="false" data-target="#myModal">Open
+    Show Product Features</button>
+
+<div class="card">
+
+    <div class="card-header">
+        <div class="row mt-4 mb-4">
+            <div class="col-md-6 text-left">
+                <img src="assets/img/logo.png" style="width: 25%;">
+            </div>
+
+            <div class="col-md-6 text-right">
+                <p class="font-weight-bold mb-1">#{{ServiceReportInfo.Id}}</p>
+                <p class="text-muted">
+                    <b>Creation Date :</b> {{ServiceReportInfo.cr_dt | date:'dd/MM/yyyy hh:mm'}}
+                </p>
+                <p style="font-size: 25px;">
+
+                    <span *ngIf="ServiceReportInfo.submitted == 'N'" class="badge badge-warning float-right mt-2">On
+                        Progress</span>
+                    <span *ngIf="ServiceReportInfo.submitted == 'Y'"
+                        class="badge badge-success float-right mt-2">Submitted</span>
+                </p>
+            </div>
+        </div>
+        <div class="row justify-content-center align-self-center mt-4 mb-4">
+            <h3>
+                <b> Service Report</b>
+            </h3>
+        </div>
+        <div class="row mt-4 mb-4">
+            <div class="col-6">
+                <strong>Job No : </strong><span>{{ServiceReportInfo.JobNo}}</span>
+            </div>
+
+            <div class="col-6 float-left">
+                <strong>CTC Engineer : </strong><span>{{ServiceReportInfo.cr_uid}}</span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-6">
+                <strong>Total Trip KM: </strong><span>{{ServiceReportInfo.TotalTripKm}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+
+        <tabset #staticTabs class="tabset-justify-content-center">
+
+            <tab heading="Service Report" class="tab-contents">
+                <div class="row mt-4">
+                    <h6>
+                        <strong>Customer Information</strong>
+                    </h6>
+                </div>
+                <hr class="solid" />
+                <div class="row mb-2">
+
+                    <div class="col-sm-3">
+                        <div><strong>Customer Name: </strong>{{ServiceReportInfo.Customer}}</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div><strong>Location :</strong> {{ServiceReportInfo.CustomerInfoLocation}}</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div><strong>Phone No : </strong> {{ServiceReportInfo.CustomerInfoPhoneNo}}</div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div><strong>Call Date : </strong>{{ServiceReportInfo.CustomerInfoCallDate}} </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+
+                    <div class="col-sm-3">
+                        <div><strong>M/C Type: </strong> </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div><strong>M/C Model: </strong> </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div><strong>M/C S/N: </strong> </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div><strong>O.hours_KM: </strong> {{ServiceReportInfo.CustomerInfoOHoursKm}}</div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+
+                    <div class="col-sm-12">
+                        <div>
+                            <strong>Customer complain: </strong>
+                            {{ServiceReportInfo.CustomerComplain}}
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <hr />
+                <div class="row mt-4 mb-4">
+                    <h6>
+                        <strong>Technical Data</strong>
+                    </h6>
+                </div>
+                <hr class="solid" />
+
+                <div class="row mb-4">
+
+                    <div class="col-12">
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                <strong>Symptoms: </strong>
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                {{ServiceReportInfo.Symptoms}}
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                <strong>Investigation & findings: </strong>
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                {{ServiceReportInfo.InvestigationAndFindings}}
+                            </div>
+                        </div>
+
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                <strong>Actions Taken & current status: </strong>
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                {{ServiceReportInfo.ActionsTakenAndCurrentStatus}}
+                            </div>
+                        </div>
+
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                <strong>Recommedations: </strong>
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                {{ServiceReportInfo.Recommedations}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <strong>Is the job done?</strong>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-6">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="YesJobDone" value="option3"
+                                        disabled [checked]="YesJobDone">
+                                    <label class="form-check-label" for="YesJobDone">Yes</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="NoJobDone" value="option3"
+                                        disabled [checked]="NoJobDone">
+                                    <label class="form-check-label" for="NoJobDone">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <strong>Machine Running?</strong>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-6">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="YesMachineRunning"
+                                        value="option3" disabled [checked]="YesMachineRunning">
+                                    <label class="form-check-label" for="YesMachineRunning">Yes</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="NoMachineRunning"
+                                        value="option3" disabled [checked]="NoMachineRunning">
+                                    <label class="form-check-label" for="NoMachineRunning">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <strong>If No, why?</strong>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="NoWhyCustomer" value="option3"
+                                        disabled [checked]="NoWhyCustomer">
+                                    <label class="form-check-label" for="NoWhyCustomer">Customer</label>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="NoWhyTools" value="option3"
+                                        disabled [checked]="NoWhyTools">
+                                    <label class="form-check-label" for="NoWhyTools">Tools</label>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="NoWhyInformation"
+                                        value="option3" disabled [checked]="NoWhyInformation">
+                                    <label class="form-check-label" for="NoWhyInformation">Information</label>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="NoWhySpareParts" value="option3"
+                                        disabled [checked]="NoWhySpareParts">
+                                    <label class="form-check-label" for="NoWhySpareParts">SpareParts</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="NoWhyOther" value="option3"
+                                        disabled [checked]="NoWhyOther">
+                                    <label class="form-check-label" for="NoWhyOther">Other</label>
+                                </div>
+                                {{ServiceReportInfo.OtherRemarks}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <strong>Team Members</strong>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-12">
+                                {{ServiceReportInfo.TeamMembers}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <strong>Parts Used</strong>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-12">
+                                {{ServiceReportInfo.PartsUsed}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <strong class="mb-4">Spare parts taken by : </strong>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-4">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="SparePartTakenByRequistion"
+                                        value="option3" disabled [checked]="SparePartTakenByRequistion">
+                                    <label class="form-check-label" for="SparePartTakenByRequistion">Requisition</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="SparePartTakenByCustomer"
+                                        value="option3" disabled [checked]="SparePartTakenByCustomer">
+                                    <label class="form-check-label" for="SparePartTakenByCustomer">Customer</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="SparePartTakenByCannibalization"
+                                        value="option3" disabled [checked]="SparePartTakenByCannibalization">
+                                    <label class="form-check-label"
+                                        for="SparePartTakenByCannibalization">Cannibalization</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-6">
+                                <strong>Cannibalized from M/C S.N:</strong>
+                                <div class="row mt-4 mb-4">
+                                    <div class="col-12">
+                                        {{ServiceReportInfo.CannibalizationFromMcSn}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <strong>Location:</strong>
+                                <div class="row mt-4 mb-4">
+                                    <div class="col-12">
+                                        {{ServiceReportInfo.CannibalizationLocation}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mb-4">
+
+                    <div class="col-12">
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                <strong>Extra charges: </strong>
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                {{ServiceReportInfo.SparePartTakenExtraCharges}}
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                <strong>Customer Comments: </strong>
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+                            <div class="col-sm-12">
+                                {{ServiceReportInfo.CustomerComments}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="row mb-4">
+                            <strong class="mb-4">Customer Signature : </strong>
+                        </div>
+                        <div class="row  justify-content-center align-self-center mt-4 mb-4">
+                            <img class="img-thumbnail" width="450" height="450"
+                                [src]="ServiceReportInfo.customerSignature">
+                        </div>
+                    </div>
+                </div>
+            </tab>
+            <tab heading="Service Report Images" class="tab-contents">
+                <div class="row mt-4">
+                    <div class="col-4" *ngFor="let image of ServiceReportInfo.ServiceReportImages; let i = index"
+                        (click)="openModal();currentSlide(i);">
+                        <img [src]="image.Image" class="img-thumbnail" width="300" height="300" />
+                    </div>
+                </div>
+            </tab>
+
+            <tab heading="Job Time Card" class="tab-contents">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Activity</th>
+                            <th scope="col">From</th>
+                            <th scope="col">To</th>
+                            <th scope="col">Total Hrs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let timeCard of JobTimeCards">
+                            <th scope="row mt-4 mb-4">{{timeCard.StartTime | date:'dd/MM/yyyy'}}</th>
+                            <td>{{timeCard.OperationDesc}}</td>
+                            <td>{{timeCard.StartTime | date:'HH:mm'}}</td>
+                            <td>{{timeCard.EndTime | date:'HH:mm'}}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </tab>
+
+        </tabset>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <h4 class="modal-title">Images</h4>
+          <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+              aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+
+            <ngb-carousel id="carousel" #carouse *ngIf="ServiceReportInfo.ServiceReportImages" (slide)="change($event)">
+                <ng-template *ngFor="let imgIdx of ServiceReportInfo.ServiceReportImages; let i = index" [id]="i" ngbSlide>
+                    <div class="picsum-img-wrapper">
+                        <img [src]="imgIdx.Image" [alt]="">
+                    </div>
+                    <div class="carousel-caption">
+                        <h3>{{imgIdx.head}}</h3>
+                        <p>{{imgIdx.data}}</p>
+                    </div>
+                </ng-template>
+            </ngb-carousel>
+            <!-- <div class="mySlides" *ngFor="let image of ServiceReportInfo.ServiceReportImages; let i = index">
+                <div class="numbertext">1 / 4</div>
+                <img [src]="image.Image" style="width:100%">
+            </div>
+    
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    
+            <div class="caption-container">
+                <p id="caption"></p>
+            </div>
+    
+            <div class="column" *ngFor="let image of ServiceReportInfo.ServiceReportImages; let i = index">
+                <img class="demo" [src]="image.Image" (click)="currentSlide(i)" alt="Nature">
+            </div> -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

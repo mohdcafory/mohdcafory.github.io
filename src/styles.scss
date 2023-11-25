@@ -1,0 +1,63 @@
+/* You can add global styles to this file, and also import other style files */
+// @import '~bootstrap/scss/bootstrap';
+
+@import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700');
+
+@import '~admin-lte/plugins/fontawesome-free/css/all.min.css';
+@import '~admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css';
+@import '~admin-lte/dist/css/adminlte.min.css';
+
+@import '~ngx-toastr/toastr';
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+// Bootstrap
+// ---------------------------------------------------
+@import '~bootstrap/scss/functions';
+@import '~admin-lte/build/scss/bootstrap-variables';
+
+// Custom Theme Color START
+$company: #292864;
+$theme-colors: map-merge(
+  (
+    'company': $company,
+  ),
+  $theme-colors
+);
+// Custom Theme Color END
+
+// Variables and Mixins
+// ---------------------------------------------------
+@import '~admin-lte/build/scss/variables';
+@import '~admin-lte/build/scss/mixins';
+
+@import '~bootstrap/scss/bootstrap';
+
+@import '../node_modules/@swimlane/ngx-datatable/themes/bootstrap.css';
+
+@import '~admin-lte/build/scss/parts/core';
+@import '~admin-lte/build/scss/parts/components';
+@import '~admin-lte/build/scss/parts/extra-components';
+@import '~admin-lte/build/scss/parts/pages';
+@import '~admin-lte/build/scss/parts/plugins';
+@import '~admin-lte/build/scss/parts/miscellaneous';
+
+// Custom Style START
+.my-custom-style {
+  background-color: $company;
+  padding: 0.5rem 0;
+}
+
+.btn-company {
+  @include button-variant($company, $company);
+}
+// Custom Style END
+
+.modal {
+  background: rgba(0, 0, 0, 0.5);
+}

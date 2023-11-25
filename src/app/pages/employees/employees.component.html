@@ -1,0 +1,257 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Employees</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+                    <li class="breadcrumb-item active">Employees</li>
+                </ol>
+                <br />
+
+            </div>
+        </div>
+
+        <hr />
+        <div class="row">
+            <div class="col-12">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="content container-fluid">
+    <div class="main">
+        <div class="row justify-content-center" *ngIf="loading">
+            <div class="spinner-border" role="status">
+                <span class="sr-only" class="loading"></span>
+            </div>
+        </div>
+        <div *ngIf="loading == false">
+            <!-- <div class="row">
+                <div class="col-lg-12">
+                    <div class="float-right">
+                        <div class="btn-group">
+                            <button class="btn btn-info" id="list" (click)="showList()">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button class="btn btn-danger" id="grid" (click)="showGrid()">
+                                <i class="fa fa-th-large"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-lg-12 text-center no-folder" *ngIf="noData == true">
+                <i class="ion ion-person nav-icon no-data"></i>
+                <p>
+                    {{errorMessage}}
+                </p>
+                <button type="button" class="btn btn-success" (click)="refreshEmployeesList()">Click here to try loading
+                    Employees List</button>
+            </div>
+            <div *ngIf="noData == false">
+                <div *ngIf="showListFlag">
+
+                    <div class="card mb-5">
+                        <!-- <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Search for Employee
+                                </div>
+                                <div class="col-md-8">
+                                    <input #search id="search" type="text" class="form-control" placeholder="Search"
+                                        aria-label="Search" aria-describedby="basic-addon1" />
+                                </div>
+                            </div>
+                        </div> -->
+
+
+                        <ngx-datatable class="bootstrap" [rows]="rows" [loadingIndicator]="loadingIndicator"
+                            [columns]="columns" [summaryPosition]="'bottom'" [footerHeight]="40" [limit]="10"
+                            rowHeight=" auto" [columnMode]="'force'" [limit]="10">
+                            <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}"
+                                prop="{{column.prop}}">
+                            </ngx-datatable-column>
+
+                            <!-- <ngx-datatable-column name="Actions" sortable="false" prop="Id">
+                                <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
+                                    ngx-datatable-cell-template>
+
+                                    <button class="btn btn-dark" (click)="LogHours(row)">
+                                        <i class="ion ion-clock"></i>
+                                        &nbsp;Log Permission
+                                    </button>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light dropdown-toggle" type="button"
+                                            data-toggle="dropdown">ِActions
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <button class="btn btn-dark" (click)="onSelectBlue(row)"> 
+                                                    <i class="ion ion-clock"></i>
+                                                    &nbsp;Log Hours
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column> -->
+
+                        </ngx-datatable>
+                    </div>
+                </div>
+
+                <!-- <div class="row mb-4" *ngIf="showGridFlag">
+                    <div class="col-3" *ngFor="let emp of EmpInfos">
+                        <br/>
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">({{emp.EmpCode}})</h4>
+                                <p class="card-text">{{emp.EmpName}} </p>
+                                <p class="card-text">{{emp.EmpLocation}}</p>
+                                <a href="#" class="btn btn-primary">See Profile</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-6">
+                        <br/>
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <span class="float-left">
+                                    <strong>Time Cards Summary By Activity Type</strong>
+                                </span>
+                                <button type="button" class="btn btn-primary-outline float-right"
+                                    (click)="openModal(pieChartValuesByActivity,1)">
+                                    <i style="color: white;" class="ion ion-arrow-resize"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <ngx-charts-pie-chart [view]="view" [scheme]="valuesByActivityColorScheme"
+                                    [results]="pieChartValuesByActivity" [gradient]="gradient" [legend]="showLegend"
+                                    [legendPosition]="legendPosition" [labels]="showLabels" (select)="onSelect($event)"
+                                    (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+                                </ngx-charts-pie-chart>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h4 class="modal-title"><i class="ion ion-clock"></i>
+                    &nbsp;Log Permission</h4>
+                <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="permissionType">Employee: </label>
+                    <input type="text" class="form-control" id="usr" [(ngModel)]="selectedEmpName" readonly>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="permissionType">Permission Type: </label>
+                    <select (change)="selectPermissionType($event)" id="permissionType" class="form-control">
+                        <option *ngFor="let item of permissionTypes" [(ngModel)]="selectedPermType"
+                            [value]="item.PermissionCode">
+                            {{item.PermissionName}}
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Permission Period: </label>
+                    <div class="radio">
+                        <label class="radio-inline"><input type="radio" (ngModelChange)="choosePermPeriod($event)"
+                                [(ngModel)]="permPeriodType" name="permTypeDay" [value]="'day'">Day(s)</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label class="radio-inline"><input type="radio" [(ngModel)]="permPeriodType" name="permTypeHour"
+                                [value]="'hour'">Hour(s)</label>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="permPeriodType == 'day'">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label> From Date:</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="permFromDate"
+                                    [(ngModel)]="permFromDate" ngbDatepicker #f="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary calendar" (click)="f.toggle()"
+                                        type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label> To Date:</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="permToDate"
+                                    [(ngModel)]="permToDate" ngbDatepicker #t="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary calendar" (click)="t.toggle()"
+                                        type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="permPeriodType == 'hour'">
+                    <div class="col-12 form-group">
+                        <label> Date:</label>
+                        <div class="input-group">
+                            <input class="form-control" placeholder="yyyy-mm-dd" name="permDate" [(ngModel)]="permDate"
+                                ngbDatepicker #f="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="f.toggle()"
+                                    type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="permPeriodType == 'hour'">
+
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label> From Time:</label>
+                            <div class="input-group">
+                                <ngb-timepicker [(ngModel)]="permFromTime"></ngb-timepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label> To Time:</label>
+                            <div class="input-group">
+                                <ngb-timepicker [(ngModel)]="permToTime"></ngb-timepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <app-button [disabled]="isAddingPermLoading" [type]="'button'" class="btn" [text]="'Log Permission'"
+                    [loading]="isAddingPermLoading" [color]="'success'" (click)="logPermission()"></app-button>
+                <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

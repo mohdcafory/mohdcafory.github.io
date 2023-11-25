@@ -1,0 +1,211 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Dashboard</h1>
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>24</h3>
+
+            <p>Journeys</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-document-text"></i>
+          </div>
+        </div>
+      </div>
+      <!-- ./col -->
+
+      <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>3</h3>
+
+            <p>Drivers</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-person"></i>
+          </div>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>3</h3>
+
+            <p>Cars</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-model-s"></i>
+          </div>
+        </div>
+      </div>
+      <!-- ./col -->
+    </div>
+    <!-- /.row -->
+  </div>
+
+  <div class="container-fluid">
+    <div class="main">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card mb-5 card-info">
+            <div class="card-header">
+              <h3 class="card-title"><b>Cars Fuel Consumption</b></h3>
+            </div>
+            <ngx-charts-bar-vertical-2d
+              [view]="[1000, 300]"
+              [results]="machinesFuelConsumption"
+              [xAxisLabel]="machinesAxisLabel"
+              [yAxisLabel]="'Fuel Consumption'"
+              [legend]="false"
+              [showXAxisLabel]="true"
+              [showYAxisLabel]="true"
+              [xAxis]="true"
+              [yAxis]="true"
+              [gradient]="true"
+            >
+            </ngx-charts-bar-vertical-2d>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card mb-5">
+            <ngx-datatable
+              class="bootstrap"
+              [rows]="journeys"
+              [loadingIndicator]="loadingIndicator"
+              [summaryPosition]="'bottom'"
+              [summaryRow]="false"
+              [summaryHeight]="'auto'"
+              [footerHeight]="40"
+              [limit]="10"
+              rowHeight=" auto"
+              [columnMode]="'force'"
+              [limit]="10"
+              [count]=""
+              (activate)="OnActivate($event)"
+            >
+              <!-- (activate)="OnActivate($event)" -->
+              <!--  -->
+              <ngx-datatable-column
+                prop="machineName"
+                name="Machine"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+
+              <ngx-datatable-column
+                prop="driver"
+                name="Driver"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+
+              <ngx-datatable-column
+                prop="date"
+                name="Date"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                prop="startTime"
+                name="Start Time"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                prop="endTime"
+                name="End Time"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+
+              <ngx-datatable-column
+                prop="odometerIn"
+                name="Odometer Reading (In)"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                prop="odometerIn"
+                name="Odometer Reading (Out)"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+
+              <ngx-datatable-column
+                prop="FuelQtyStart"
+                name="Start Fuel Qty"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                prop="FuelQtyEnd"
+                name="End Fuel Qty"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /.content -->
+<!-- Modal -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{ display: display }">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">modal</h4>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="onCloseHandled()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="onCloseHandled()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

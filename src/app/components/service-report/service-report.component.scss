@@ -1,0 +1,41 @@
+.report-heading {
+    // background: #f3f3f3;
+    padding  : 5px;
+    // border: 1px solid gray;
+}
+
+/* Dashed border */
+hr.dashed {
+    border-top: 3px dashed #bbb;
+}
+
+/* Dotted border */
+hr.dotted {
+    border-top: 3px dotted #bbb;
+}
+
+/* Solid border */
+hr.solid {
+    border-top: 3px solid #bbb;
+}
+
+/* Rounded border */
+hr.rounded {
+    border-top   : 8px solid #bbb;
+    border-radius: 5px;
+}
+
+ngb-carousel .picsum-img-wrapper {
+    position   : relative;
+    height     : 0;
+    padding-top: 55%;
+    /* Keep ratio for 900x500 images */
+}
+
+ngb-carousel .picsum-img-wrapper>img {
+    position: absolute;
+    top     : 0;
+    left    : 0;
+    bottom  : 0;
+    right   : 0;
+}

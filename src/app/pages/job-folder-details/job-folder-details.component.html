@@ -1,0 +1,105 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Job Details</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                    <li class="breadcrumb-item active"><a routerLink="/job-folder">Opened Jobs</a></li>
+                    <!-- <li class="breadcrumb-item active">{{jobFolderDetails.JobNo}}}</li> -->
+                    <li class="breadcrumb-item active">{{jobFolderDetails.JobNo}}</li>
+                </ol>
+                <br />
+
+            </div>
+        </div>
+
+        <hr />
+
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<section class="content container-fluid">
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <span class="float-left">
+                    <strong>Job Info</strong>
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4 justify-content-center" *ngIf="loading">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only" class="loading"></span>
+                    </div>
+                </div>
+                <div class="row mb-4" *ngIf="loading == false">
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <strong>Job No: </strong> {{jobFolderDetails.JobNo}}
+                        </div>
+                        <div class="mb-3"><strong>Service Center :</strong> {{JobInfo.ServiceCenter}}</div>
+                        <div class="mb-3"><strong>Customer :</strong> {{JobInfo.CustomerName}}</div>
+                        <div class="mb-3"><strong>Job Doc. Source Location : </strong>{{JobInfo.JobDocSrcLation}}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3"><strong>Customer Tel No : </strong>{{JobInfo.CustomerTelNo}}</div>
+                        <div class="mb-3"><strong>Chassis No: </strong>{{JobInfo.ChassisNo}}</div>
+                        <div class="mb-3"><strong>Creation Date: </strong>{{JobInfo.CreationDate}}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4" *ngIf="loading == false">
+            <div class="col-12 ">
+                <tabset #staticTabs class="tabset-justify-content-center">
+
+                    <tab heading="Entry Inspection" class="tab-contents">
+                        <div class="row mb-4 justify-content-center" *ngIf="loadingEntryInspect">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only" class="loading"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="loadingEntryInspect == false">
+                            <div *ngIf="noDataEntryInspection == false">
+                                <app-entry-inspection-report [EntryInspectionInfo]="EntryInspectionReport">
+                                </app-entry-inspection-report>
+                            </div>
+                            <div class="col-lg-12 text-center no-folder" *ngIf="noDataEntryInspection == true">
+                                <i class="ion ion-search no-data"></i>
+                                <p>
+                                    {{errorMessageEntryInspection}}
+                                </p>
+                            </div>
+                        </div>
+                    </tab>
+                    <tab heading="Service Report" class="tab-contents">
+                        <div class="row mb-4 justify-content-center" *ngIf="loadingServiceReport">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only" class="loading"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="loadingServiceReport == false">
+                            <div *ngIf="noDataServiceReport == false">
+                                <app-service-report [ServiceReportInfo]="ServiceReportInfo"
+                                    [JobTimeCards]="JobTimeCards"></app-service-report>
+                            </div>
+                            <div class="col-lg-12 text-center no-folder" *ngIf="noDataServiceReport == true">
+                                <i class="ion ion-wrench  no-data"></i>
+                                <p>
+                                    {{errorMessageServiceReport}}
+                                </p>
+                            </div>
+                        </div>
+                    </tab>
+
+                </tabset>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,314 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Opened Jobs</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                    <li class="breadcrumb-item active">Opened Jobs</li>
+                </ol>
+                <br />
+
+            </div>
+        </div>
+
+        <hr />
+        <div class="row">
+            <div class="col-12">
+
+                <button id="openShowJobFolderImagesButton" [hidden]="true" data-toggle="modal" data-backdrop="static"
+                    data-keyboard="false" data-target="#showJobImagesModal">Open
+                    Show jobFolder Images</button>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+
+
+<section class="content container-fluid">
+
+    <div class="main">
+        <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-1" (click)="showHideFilter()">
+            <ngb-panel>
+                <ng-template ngbPanelTitle>
+                    <span>
+                        <i class="{{showHideFilterIcon}}"></i> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>{{showHideFilterText}}</b>
+                    </span>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="jobNo">Job No</label>
+                                <input class="form-control" id="jobNo" type="text" placeholder="Job No"
+                                    (ngModelChange)="searchJobFolder($event)"
+                                    [formControl]="filterJobFolder.controls['JobNo']" [(ngModel)]="jobNo" />
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-6 form-group">
+                                    <label for="FromDate">From Date</label>
+                                    <input type="date" class="form-control" data-inputmask-alias="datetime"
+                                        data-inputmask-inputformat="dd/mm/yyyy" data-mask="" im-insert="false"
+                                        [formControl]="filterJobFolder.controls['FromDate']" [(ngModel)]="fromDate"
+                                        id="FromDate">
+                                </div>
+
+                                <div class="col-6 form-group">
+                                    <label for="ToDate">To Date</label>
+                                    <input type="date" class="form-control" data-inputmask-alias="datetime"
+                                        data-inputmask-inputformat="dd/mm/yyyy" data-mask="" im-insert="false"
+                                        [formControl]="filterJobFolder.controls['ToDate']" [(ngModel)]="toDate"
+                                        id="ToDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div *ngIf="(userInfo.Location == 'HQ' || userInfo.Location != 'HQ') && (userInfo.Type == 'ADMIN' || userInfo.Type == 'ASM-GEN' )"
+                            class="col-4">
+                            <div class="form-group">
+                                <label for="jobType">Job Type</label>
+                                <select class="selectpicker form-control" id="jobType"
+                                    [formControl]="filterJobFolder.controls['JobType']" [(ngModel)]="jobType">
+                                    <option *ngFor="let jobT of JobTypes " value="{{jobT.JobTypeCode}}">
+                                        {{jobT.JobTypeName}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- <div *ngIf="(userInfo.Location == 'HQ' || userInfo.Location != 'HQ') && (userInfo.Type == 'ADMIN' || userInfo.Type == 'ASM-GEN' )"
+                            class="col-4">
+                            <div class="form-group">
+                                <label for="reportStatus">Status</label>
+                                <select class="selectpicker form-control" id="reportStatus"
+                                    [formControl]="filterJobFolder.controls['Status']" [(ngModel)]="reportStatus">
+                                    <option *ngFor="let status of ReportStatuses " value="{{status.StatusTypeValue}}">
+                                        {{status.StatusTypeText}}</option>
+                                </select>
+                            </div>
+                        </div> -->
+                        <div class="col-4" *ngIf="userInfo.Location == 'HQ'">
+                            <div class="form-group">
+                                <label for="serviceCenter">Service Center</label>
+                                <select class="selectpicker form-control" id="serviceCenter"
+                                    [formControl]="filterJobFolder.controls['ServiceCenter']"
+                                    [(ngModel)]="serviceCenter">
+                                    <option *ngFor="let location of Locations" value="{{location.LocationCode}}">
+                                        {{location.LocationCode}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center align-self-center">
+                        <div class="col-12">
+                            <div class="row  justify-content-center align-self-center">
+                                <app-button [style]="'margin-top: 30px;'" [disabled]="loading" [type]="'btn'"
+                                    [block]="false" [text]="'Search'" [loading]="false" [color]="'success'"
+                                    (click)="search()"></app-button> &nbsp;&nbsp;&nbsp;
+                                <app-button [style]="'margin-top: 30px;'" [disabled]="loading" [type]="'btn'"
+                                    [block]="false" [text]="'Clear'" [loading]="false" [color]="'secondary'"
+                                    (click)="clear()"></app-button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+
+        <!-- <div class="row">
+            <div class="col-2">
+                <div class="form-group">
+                    <label for="jobNo">Job No</label>
+                    <input class="form-control" id="jobNo" type="text" placeholder="Job No"
+                        (ngModelChange)="searchJobFolder($event)" [formControl]="filterJobFolder.controls['JobNo']"
+                        [(ngModel)]="jobNo" />
+                </div>
+            </div>
+            <div [ngClass]="userInfo.Location == 'HQ' ? 'col-4':'col-5'">
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <label for="FromDate">From Date</label>
+                        <input type="date" class="form-control" data-inputmask-alias="datetime"
+                            data-inputmask-inputformat="dd/mm/yyyy" data-mask="" im-insert="false"
+                            [formControl]="filterJobFolder.controls['FromDate']" [(ngModel)]="fromDate" id="FromDate">
+                    </div>
+
+                    <div class="col-6 form-group">
+                        <label for="ToDate">To Date</label>
+                        <input type="date" class="form-control" data-inputmask-alias="datetime"
+                            data-inputmask-inputformat="dd/mm/yyyy" data-mask="" im-insert="false"
+                            [formControl]="filterJobFolder.controls['ToDate']" [(ngModel)]="toDate" id="ToDate">
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="(userInfo.Location == 'HQ' || userInfo.Location != 'HQ') && (userInfo.Type == 'ADMIN' || userInfo.Type == 'ASM-GEN' )"  [ngClass]="userInfo.Location == 'HQ' ? 'col-2':'col-3'">
+                <div class="form-group">
+                    <label for="jobType">Job Type</label>
+                    <select class="selectpicker form-control" id="jobType"
+                        [formControl]="filterJobFolder.controls['JobType']" [(ngModel)]="jobType">
+                        <option *ngFor="let jobT of JobTypes "  value="{{jobT.JobTypeCode}}">{{jobT.JobTypeName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div [ngClass]="userInfo.Location == 'HQ' ? 'col-2':'col-3'" *ngIf="userInfo.Location == 'HQ'">
+                <div class="form-group">
+                    <label for="serviceCenter">Service Center</label>
+                    <select class="selectpicker form-control" id="serviceCenter"
+                        [formControl]="filterJobFolder.controls['ServiceCenter']" [(ngModel)]="serviceCenter">
+                        <option *ngFor="let location of Locations" value="{{location.LocationCode}}">
+                            {{location.LocationCode}}</option>
+                    </select>
+                </div>
+            </div>
+            <div [ngClass]="userInfo.Location == 'HQ' ? 'col-1':'col-2'">
+                <button style="margin-top: 30px;" type="button" class="btn btn-success"
+                    (click)="search()">Search</button>
+            </div>
+        </div> -->
+        <hr />
+
+        <div class="row justify-content-center" *ngIf="loading">
+            <div class="spinner-border" role="status">
+                <span class="sr-only" class="loading"></span>
+            </div>
+        </div>
+        <div class="left" *ngIf="loading == false">
+
+            <div class="col-lg-12 text-center no-folder" *ngIf="noData == true">
+                <i class="nav-icon fas fa-folder no-data"></i>
+                <p>
+                    {{errorMessage}}
+                </p>
+                <button type="button" class="btn btn-success" (click)="refreshJobFolderList()" >Click here to try loading opened jobs</button>
+            </div>
+            <!-- <div class="top-droppable folder tooltiper tooltiper-up" data-tooltip="0 file" id="folder1"
+                *ngFor="let job of jobFolderList" (click)="openJobFolder(job)"> -->
+
+            <div *ngFor="let job of OpenedJobs">
+                <div class="top-droppable folder tooltiper tooltiper-up" data-tooltip="0 file" id="folder5"
+                    (click)="openJobFolder(job)">
+                    <i class="fa fa-folder" aria-hidden="true"></i>
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    <p>{{job.JobNo}}</p>
+                </div>
+            </div>
+
+            <!-- 
+                folder1 = red
+                folder2 = green
+                folder3 = blue
+                folder4 = yellow
+                folder5 = black
+            -->
+            <!-- <div *ngFor="let job of ServiceReportList">
+                <div class="top-droppable folder tooltiper tooltiper-up" data-tooltip="0 file"
+                    [attr.id]="job.submitted == 'Y' ? 'folder2' : 'folder1'" 
+                    (click)="openJobFolder(job)">
+                    <i class="fa fa-folder" aria-hidden="true"></i>
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    <p>{{job.JobNo}}</p>
+                </div>
+            </div> -->
+            <!-- <div class="top-droppable folder tooltiper tooltiper-up" data-tooltip="0 file" id="folder2">
+                <i class="fa fa-folder" aria-hidden="true"></i>
+                <i class="fa fa-check" aria-hidden="true"></i>
+                <p>Folder 2</p>
+            </div>
+            <div class="top-droppable folder tooltiper tooltiper-up" data-tooltip="0 file" id="folder3"><i
+                    class="fa fa-folder" aria-hidden="true"></i><i class="fa fa-check" aria-hidden="true"></i>
+                <p>Folder 3</p>
+            </div>
+            <div class="top-droppable folder tooltiper tooltiper-up" data-tooltip="0 file" id="folder4"><i
+                    class="fa fa-folder" aria-hidden="true"></i><i class="fa fa-check" aria-hidden="true"></i>
+                <p>Folder 4</p>
+            </div>
+            <div class="top-droppable folder tooltiper tooltiper-up" data-tooltip="0 file" id="folder5"><i
+                    class="fa fa-folder" aria-hidden="true"></i><i class="fa fa-check" aria-hidden="true"></i>
+                <p>Folder 5</p>
+            </div> -->
+        </div>
+    </div>
+
+
+    <!-- <div class="row" #scrollMe>
+        <div class="col-12" #scrollMe>
+            <div class="card">
+                <div class="card-body">
+                    <table id="jobFolderDt" datatable [dtOptions]="dtOptions"
+                        class="table table-bordered table-hover dataTable row-border hover" width="100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Created On</th>
+                                <th>Job No</th>
+                                <th>EmpCode</th>
+                                <th>Image</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let jobFolder of jobFolderList">
+                                <td>{{ jobFolder.ID }}</td>
+                                <td>{{ jobFolder.Created_On | date: 'dd/MM/yyyy'}}</td>
+                                <td><a routerLink="/job-info">{{ jobFolder.JobNo }}</a></td>
+                                <td>{{jobFolder.EmpCode}}</td>
+                                <td>
+                                    <button class="btn btn-link" (click)="showJobFolderImages(jobFolder)">
+                                        Show Job Images
+                                    </button>
+                                </td>
+                                <td>{{jobFolder.Remarks}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</section>
+
+
+<!-- Show Job Images Modal -->
+<div id="showJobImagesModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Job Images</h5>
+                <button id="closeshowJobImagesBtn" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Job Images</h5>
+                <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <img *ngIf="selectedJobFolder != null" [src]="selectedJobFolder.JobImage" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

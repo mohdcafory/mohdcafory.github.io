@@ -1,0 +1,143 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Employee Time Cards</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+                    <li class="breadcrumb-item"><a [routerLink]="['/timeCards']">Time Cards</a></li>
+                    <li class="breadcrumb-item active">Employee Time Cards</li>
+                </ol>
+                <br />
+
+            </div>
+        </div>
+
+        <hr />
+        <div class="row">
+            <div class="col-12">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="content container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="float-left">
+                            <strong>Employee Info</strong>
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <strong>Employee Code: </strong> {{employeeTimeCard.EmpCode}}
+                                </div>
+                                <div class="mb-3"><strong>Employee Name :</strong> {{employeeTimeCard.EmpName}}</div>
+                                <div class="mb-3"><strong>Service Center :</strong> {{employeeTimeCard.EmpLocation}}
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3"><strong>Service Center Working Hours:</strong>
+                                    {{employeeTimeCard.EmpLocationWorkingHrs}} Hours / Day</div>
+                                <div class="mb-3"><strong>Employee Total Working Hours (in time period) :
+                                    </strong>{{employeeTimeCard.EmpDayWorkingHrs}}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row  mb-4">
+            <div class="col-lg-12">
+                <div class="float-right">
+                    <div class="btn-group">
+                        <button class="btn btn-info" id="list" (click)="showList()">
+                            <i class="fa fa-bars  showBtns"></i>
+                        </button>
+                        <button class="btn btn-danger" id="grid" (click)="showGrid()">
+                            <i class="fa fa-th-large showBtns"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12" *ngIf="showGridFlag">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="float-left">
+                            <strong>Time Cards Summary</strong>
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="pieChartValues"
+                            [gradient]="gradient" [legend]="showLegend" [legendPosition]="legendPosition"
+                            [labels]="showLabels" (select)="onSelect($event)" (activate)="onActivate($event)"
+                            (deactivate)="onDeactivate($event)">
+                        </ngx-charts-pie-chart>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="showListFlag">
+                <div class="card mb-5">
+                    <ngx-datatable class="bootstrap" [rows]="employeeTimeCard.TimeCards"
+                        [loadingIndicator]="loadingIndicator" [summaryPosition]="'bottom'" [summaryRow]="enableSummary"
+                        [summaryHeight]="'auto'" [footerHeight]="40" [limit]="10" rowHeight=" auto"
+                        [columnMode]="'force'" [limit]="10" (activate)="OnActivate($event)" [count]="">
+                        <ngx-datatable-column prop="ActivityType" name="Activity Type" headerClass="header"
+                            [summaryFunc]="emptySumm"></ngx-datatable-column>
+                        <ngx-datatable-column prop="ActivitySubType" name="Activity Sub Type" headerClass="header"
+                            [summaryFunc]="emptySumm"></ngx-datatable-column>
+                        <ngx-datatable-column prop="StartTime" name="Start Time" headerClass="header"
+                            [summaryFunc]="emptySumm"></ngx-datatable-column>
+                        <ngx-datatable-column prop="EndTime" name="End Time" headerClass="header"
+                            [summaryFunc]="emptySumm"></ngx-datatable-column>
+                        <ngx-datatable-column prop="JobNo" name="Job No" headerClass="header" [summaryFunc]="emptySumm">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="Comments" name="Comments" headerClass="header"
+                            [summaryFunc]="emptySumm" [summaryTemplate]="totalWorkedHrsSummaryLabelCell">
+                        </ngx-datatable-column>
+                        <ngx-datatable-column prop="DiffInHrs" name="Time Spent" headerClass="header"
+                            [summaryFunc]="caclulateSumm" [summaryTemplate]="totalWorkedHrsSummaryCell">
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+
+                    <ng-template #totalWorkedHrsSummaryLabelCell>
+                        <div class="summary">
+                            <span>Total worked Hours : </span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template #totalWorkedHrsSummaryCell>
+                        <div class="summary">
+                            <span>{{totalWorkedHrs}}</span>
+                        </div>
+                    </ng-template>
+
+                    <!-- <ngx-datatable class="bootstrap" [rows]="employeeTimeCard.TimeCards"
+                        [loadingIndicator]="loadingIndicator" [columns]="columns" [summaryPosition]="'bottom'"
+                        [summaryRow]="enableSummary" 
+                        [summaryHeight]="'auto'"
+                        [footerHeight]="40" [limit]="10" rowHeight=" auto" [columnMode]="'force'" [limit]="10"
+                        (activate)="OnActivate($event)" [count]="">
+                        <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}"
+                            prop="{{column.prop}}">
+                        </ngx-datatable-column>
+                    </ngx-datatable> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

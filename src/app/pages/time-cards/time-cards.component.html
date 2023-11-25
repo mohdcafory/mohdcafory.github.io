@@ -1,0 +1,351 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Time Cards</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+          <li class="breadcrumb-item active">Time Cards</li>
+        </ol>
+        <br />
+      </div>
+    </div>
+
+    <hr />
+    <div class="row">
+      <div class="col-12"></div>
+    </div>
+  </div>
+</section>
+
+<section class="content container-fluid">
+  <div class="main">
+    <ngb-accordion
+      #acc="ngbAccordion"
+      activeIds="ngb-panel-1"
+      (click)="showHideFilter()"
+    >
+      <ngb-panel>
+        <ng-template ngbPanelTitle>
+          <span>
+            <i class="{{ showHideFilterIcon }}"></i> &nbsp;&nbsp;&nbsp;&nbsp;
+            <b>{{ showHideFilterText }}</b>
+          </span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="row">
+            <div class="col-8">
+              <div class="row">
+                <div class="col-6 form-group">
+                  <label for="FromDate">From Date</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    data-inputmask-alias="datetime"
+                    data-inputmask-inputformat="dd/mm/yyyy"
+                    data-mask=""
+                    im-insert="false"
+                    [formControl]="filterTimeCard.controls['FromDate']"
+                    [(ngModel)]="fromDate"
+                    id="FromDate"
+                  />
+                </div>
+
+                <div class="col-6 form-group">
+                  <label for="ToDate">To Date</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    data-inputmask-alias="datetime"
+                    data-inputmask-inputformat="dd/mm/yyyy"
+                    data-mask=""
+                    im-insert="false"
+                    [formControl]="filterTimeCard.controls['ToDate']"
+                    [(ngModel)]="toDate"
+                    id="ToDate"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <label for="jobNo">Engineer / Technician</label>
+                <select
+                  class="selectpicker form-control"
+                  id="empCode"
+                  [formControl]="filterTimeCard.controls['EmpCode']"
+                  [(ngModel)]="empCode"
+                  (change)="filterTimeCardByEngineer()"
+                >
+                  <option
+                    *ngFor="let emp of EmpInfos"
+                    value="{{ emp.EmpCode }}"
+                  >
+                    {{ emp.EmpCode }} -
+                    {{ emp.EmpName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-4" *ngIf="userInfo.Location == 'HQ'">
+              <div class="form-group">
+                <label for="serviceCenter">Service Center</label>
+                <select
+                  class="selectpicker form-control"
+                  id="serviceCenter"
+                  [formControl]="filterTimeCard.controls['ServiceCenter']"
+                  [(ngModel)]="serviceCenter"
+                  (change)="filterTimeCardByLocation()"
+                >
+                  <option
+                    *ngFor="let location of Locations"
+                    value="{{ location.LocationCode }}"
+                  >
+                    {{ location.LocationCode }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center align-self-center">
+            <div class="col-12">
+              <div class="row justify-content-center align-self-center">
+                <app-button
+                  [style]="'margin-top: 30px;'"
+                  [disabled]="loading"
+                  [type]="'btn'"
+                  [block]="false"
+                  [text]="'Search'"
+                  [loading]="false"
+                  [color]="'success'"
+                  (click)="filterTimeCards()"
+                ></app-button>
+                &nbsp;&nbsp;&nbsp;
+                <app-button
+                  [style]="'margin-top: 30px;'"
+                  [disabled]="loading"
+                  [type]="'btn'"
+                  (click)="clear()"
+                  [block]="false"
+                  [text]="'Clear'"
+                  [loading]="false"
+                  [color]="'secondary'"
+                ></app-button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+    <hr />
+
+    <div class="row justify-content-center" *ngIf="loading">
+      <div class="spinner-border" role="status">
+        <span class="sr-only" class="loading"></span>
+      </div>
+    </div>
+    <div *ngIf="loading == false">
+      <div class="col-lg-12 text-center no-folder" *ngIf="noData == true">
+        <i class="nav-icon ion ion-clock no-data"></i>
+        <p>
+          {{ errorMessage }}
+        </p>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="refreshEmployeesList()"
+        >
+          Click here to try loading Time Cards
+        </button>
+      </div>
+
+      <div class="row mb-4" *ngIf="loading == false && noData == false">
+        <div class="col-lg-12">
+          <div class="float-right">
+            <div class="btn-group">
+              <button class="btn btn-info" id="list" (click)="showList()">
+                <i class="fa fa-bars showBtns"></i>
+              </button>
+              <button class="btn btn-danger" id="grid" (click)="showGrid()">
+                <i class="fa fa-th-large showBtns"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-4" *ngIf="loading == false && noData == false">
+        <div class="col-12" *ngIf="showGridFlag">
+          <div class="row mb-4">
+            <div class="col-6">
+              <div class="card card-success">
+                <div class="card-header">
+                  <span class="float-left">
+                    <strong>Time Cards Summary By Activity Type</strong>
+                  </span>
+                  <button
+                    type="button"
+                    class="btn btn-primary-outline float-right"
+                    (click)="openModal(pieChartValuesByActivity, 1)"
+                  >
+                    <i style="color: white" class="ion ion-arrow-resize"></i>
+                  </button>
+                </div>
+                <div class="card-body">
+                  <ngx-charts-pie-chart
+                    [view]="view"
+                    [trimLabels]="trimLabels"
+                    [scheme]="valuesByActivityColorScheme"
+                    [results]="pieChartValuesByActivity"
+                    [gradient]="gradient"
+                    [legend]="showLegend"
+                    [legendPosition]="legendPosition"
+                    [labels]="showLabels"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)"
+                  >
+                  </ngx-charts-pie-chart>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card card-success">
+                <div class="card-header">
+                  <span class="float-left">
+                    <strong>Time Cards Summary By Service Center</strong>
+                  </span>
+                  <button
+                    type="button"
+                    class="btn btn-primary-outline float-right"
+                    (click)="openModal(pieChartValuesBySrvcCenter, 2)"
+                  >
+                    <i style="color: white" class="ion ion-arrow-resize"></i>
+                  </button>
+                </div>
+                <div class="card-body">
+                  <ngx-charts-pie-chart
+                    [view]="view"
+                    [trimLabels]="trimLabels"
+                    [scheme]="valuesBySrvcCenterColorScheme"
+                    [results]="pieChartValuesBySrvcCenter"
+                    [gradient]="gradient"
+                    [legend]="showLegend"
+                    [legendPosition]="legendPosition"
+                    [labels]="showLabels"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)"
+                  >
+                  </ngx-charts-pie-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div *ngFor="let timeCard of EmployeeTimeCards">
+                        <div class="card top-droppable folder tooltiper tooltiper-up" data-tooltip="0 file" id="folder5"
+                            (click)="goToEmployeeTimeCard(timeCard)">
+                            <i class="fa fa-user emp-icon" aria-hidden="true"></i>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            <p>{{timeCard.EmpName}} ({{timeCard.EmpCode}})</p>
+                        </div>
+                    </div> -->
+        </div>
+
+        <div class="col-12" *ngIf="showListFlag">
+          <div class="card mb-5">
+            <ngx-datatable
+              class="bootstrap"
+              [rows]="EmployeeTimeCards"
+              [loadingIndicator]="loadingIndicator"
+              [summaryPosition]="'bottom'"
+              [summaryRow]="false"
+              [summaryHeight]="'auto'"
+              [footerHeight]="40"
+              [limit]="10"
+              rowHeight=" auto"
+              [columnMode]="'force'"
+              [limit]="10"
+              (activate)="OnActivate($event)"
+              [count]=""
+            >
+              <ngx-datatable-column
+                prop="EmpCode"
+                name="Employee Code"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                prop="EmpName"
+                name="Name"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                prop="EmpLocation"
+                name="Location"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                prop="EmpActualWorkedHrs"
+                name="Worked Hours"
+                headerClass="header"
+              >
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /.content -->
+<!-- Modal -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{ display: display }">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ modalTitle }}</h4>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="onCloseHandled()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ngx-charts-pie-chart
+          [view]="viewModal"
+          [trimLabels]="trimLabels"
+          [scheme]="valuesBySrvcCenterColorScheme"
+          [results]="modalValues"
+          [gradient]="gradient"
+          [legend]="showLegend"
+          [legendPosition]="legendPosition"
+          [labels]="showLabels"
+          (select)="onSelect($event)"
+          (activate)="onActivate($event)"
+          (deactivate)="onDeactivate($event)"
+        >
+        </ngx-charts-pie-chart>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-default"
+          (click)="onCloseHandled()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
